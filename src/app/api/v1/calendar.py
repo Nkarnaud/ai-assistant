@@ -10,7 +10,6 @@ from ...core.db.database import async_get_db
 from ...crud.crud_calendar_event import crud_calendar_events
 from ...schemas.calendar_event import CalendarEventCreate, CalendarEventCreateInternal, CalendarEventRead
 from ...services.calendar_service import CalendarService
-from ..models.calendar_event import CalendarEvent
 
 router = APIRouter(tags=["calendar"])
 
@@ -46,7 +45,7 @@ async def create_event(
     current_user: Annotated[dict, Depends(get_current_user)],
     google_credentials: Annotated[str, Depends(get_google_credentials)],
     db: Annotated[AsyncSession, Depends(async_get_db)],
-) -> CalendarEvent:
+) -> CalendarEventRead:
     """Create a new calendar event."""
     calendar_service = CalendarService(google_credentials)
 
