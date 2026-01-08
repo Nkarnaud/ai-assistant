@@ -1,6 +1,6 @@
 """API endpoints for calendar event management."""
 
-from typing import Annotated
+from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -45,7 +45,7 @@ async def create_event(
     current_user: Annotated[dict, Depends(get_current_user)],
     google_credentials: Annotated[str, Depends(get_google_credentials)],
     db: Annotated[AsyncSession, Depends(async_get_db)],
-) -> CalendarEventRead:
+) -> Any:
     """Create a new calendar event."""
     calendar_service = CalendarService(google_credentials)
 
