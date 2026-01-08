@@ -32,7 +32,9 @@ async def list_emails(
 
 @router.get("/emails/{email_id}", response_model=EmailMessageRead)
 async def get_email(
-    email_id: int, current_user: Annotated[dict, Depends(get_current_user)], db: Annotated[AsyncSession, Depends(async_get_db)]
+    email_id: int,
+    current_user: Annotated[dict, Depends(get_current_user)],
+    db: Annotated[AsyncSession, Depends(async_get_db)],
 ) -> dict:
     """Get specific email details."""
     email = await crud_email_messages.get(db=db, id=email_id, user_id=current_user["id"])

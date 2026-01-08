@@ -69,3 +69,12 @@ repos:
       always_run: true
       types: [python]
       stages: [manual]
+
+    - id: type_check
+      name: Type check
+      language: system
+      entry: uv run mypy src/app --config-file pyproject.toml
+      pass_filenames: false
+      always_run: true
+      types: [python]
+      stages: [manual]
