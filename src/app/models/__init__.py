@@ -1,8 +1,10 @@
-from .calendar_event import CalendarEvent
-from .draft_reply import DraftReply, DraftStatus
-from .email_message import EmailClassification, EmailMessage
-from .gmail_watch_subscription import GmailWatchSubscription
-from .notification_preference import NotificationPreference
-from .oauth_token import OAuthToken
-from .push_subscription import PushSubscription
-from .user import User
+from .calendar_event import CalendarEvent as CalendarEvent
+from .draft_reply import DraftReply as DraftReply
+from .draft_reply import DraftStatus as DraftStatus
+from .email_message import EmailClassification as EmailClassification
+from .email_message import EmailMessage as EmailMessage
+from .gmail_watch_subscription import GmailWatchSubscription as GmailWatchSubscription
+from .notification_preference import NotificationPreference as NotificationPreference
+from .oauth_token import OAuthToken as OAuthToken
+from .push_subscription import PushSubscription as PushSubscription
+from .user import User as User

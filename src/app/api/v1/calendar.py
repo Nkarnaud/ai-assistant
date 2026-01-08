@@ -1,9 +1,8 @@
 """API endpoints for calendar event management."""
 
-from datetime import datetime
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...api.dependencies import get_current_user, get_google_credentials

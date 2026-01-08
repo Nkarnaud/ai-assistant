@@ -2,7 +2,6 @@ from fastcrud import FastCRUD
 
 from ..models.email_message import EmailMessage
 from ..schemas.email_message import (
-    EmailMessageCreate,
     EmailMessageCreateInternal,
     EmailMessageRead,
     EmailMessageUpdate,

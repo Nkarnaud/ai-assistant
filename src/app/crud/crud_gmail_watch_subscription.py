@@ -2,7 +2,6 @@ from fastcrud import FastCRUD
 
 from ..models.gmail_watch_subscription import GmailWatchSubscription
 from ..schemas.gmail_watch_subscription import (
-    GmailWatchSubscriptionCreate,
     GmailWatchSubscriptionCreateInternal,
     GmailWatchSubscriptionRead,
     GmailWatchSubscriptionUpdate,

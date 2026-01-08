@@ -2,7 +2,6 @@ from fastcrud import FastCRUD
 
 from ..models.calendar_event import CalendarEvent
 from ..schemas.calendar_event import (
-    CalendarEventCreate,
     CalendarEventCreateInternal,
     CalendarEventRead,
     CalendarEventUpdate,

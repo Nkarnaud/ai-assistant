@@ -2,7 +2,6 @@ from fastcrud import FastCRUD
 
 from ..models.notification_preference import NotificationPreference
 from ..schemas.notification_preference import (
-    NotificationPreferenceCreate,
     NotificationPreferenceCreateInternal,
     NotificationPreferenceRead,
     NotificationPreferenceUpdate,

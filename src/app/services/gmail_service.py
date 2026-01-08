@@ -1,12 +1,9 @@
 """Gmail API service for reading and sending emails."""
 
-from datetime import datetime, timedelta
 from typing import Any
 
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
-
-from ..core.config import settings
 
 
 class GmailService:
@@ -95,8 +92,8 @@ class GmailService:
         dict[str, Any]
             Sent message object
         """
-        from email.mime.text import MIMEText
         import base64
+        from email.mime.text import MIMEText
 
         message = MIMEText(body)
         message["to"] = to

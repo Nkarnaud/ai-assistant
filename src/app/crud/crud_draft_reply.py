@@ -2,7 +2,6 @@ from fastcrud import FastCRUD
 
 from ..models.draft_reply import DraftReply
 from ..schemas.draft_reply import (
-    DraftReplyCreate,
     DraftReplyCreateInternal,
     DraftReplyRead,
     DraftReplyUpdate,

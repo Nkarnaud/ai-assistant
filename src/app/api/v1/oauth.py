@@ -2,12 +2,12 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query, Request, Response
+from fastapi import APIRouter, Depends, Query, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from ...core.config import settings
 from ...core.db.database import async_get_db
-from ...core.exceptions.http_exceptions import BadRequestException, UnauthorizedException
+from ...core.exceptions.http_exceptions import BadRequestException
 from ...core.oauth2 import (
     exchange_code_for_token,
     get_authorization_url,

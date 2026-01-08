@@ -2,8 +2,6 @@
 
 from datetime import UTC, datetime, timedelta
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from ..crud.crud_calendar_event import crud_calendar_events
 from ..crud.crud_gmail_watch_subscription import crud_gmail_watch_subscriptions
 from ..crud.crud_notification_preference import crud_notification_preferences
@@ -194,7 +192,7 @@ def renew_gmail_watch_subscriptions() -> dict:
                         )
                         renewed_count += 1
 
-                    except Exception as e:
+                    except Exception:
                         # Increment failure count
                         from ..schemas.gmail_watch_subscription import GmailWatchSubscriptionUpdateInternal
 

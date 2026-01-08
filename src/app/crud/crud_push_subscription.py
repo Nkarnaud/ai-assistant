@@ -2,7 +2,6 @@ from fastcrud import FastCRUD
 
 from ..models.push_subscription import PushSubscription
 from ..schemas.push_subscription import (
-    PushSubscriptionCreate,
     PushSubscriptionCreateInternal,
     PushSubscriptionRead,
     PushSubscriptionUpdate,
