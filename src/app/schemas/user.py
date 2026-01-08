@@ -35,6 +35,9 @@ class UserCreate(UserBase):
 
 class UserCreateInternal(UserBase):
     hashed_password: str
+    profile_image_url: str | None = None
+    oauth_provider: str | None = None
+    oauth_sub: str | None = None
 
 
 class UserUpdate(BaseModel):
@@ -54,7 +57,9 @@ class UserUpdate(BaseModel):
 
 
 class UserUpdateInternal(UserUpdate):
-    updated_at: datetime
+    updated_at: datetime | None = None
+    oauth_provider: str | None = None
+    oauth_sub: str | None = None
 
 
 class UserDelete(BaseModel):

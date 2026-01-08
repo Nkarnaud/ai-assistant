@@ -73,7 +73,9 @@ class GmailService:
         message = self.service.users().messages().get(userId="me", id=message_id).execute()
         return message
 
-    async def send_message(self, to: str, subject: str, body: str, from_email: str | None = None) -> dict[str, Any]:
+    async def send_message(
+        self, to: str, subject: str, body: str, from_email: str | None = None, thread_id: str | None = None
+    ) -> dict[str, Any]:
         """Send an email via Gmail.
 
         Parameters
@@ -86,6 +88,8 @@ class GmailService:
             Email body (plain text)
         from_email: str | None
             Sender email (optional, defaults to authenticated user)
+        thread_id: str | None
+            Thread ID to reply to (optional)
 
         Returns
         -------
@@ -103,6 +107,8 @@ class GmailService:
 
         raw_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
         send_message = {"raw": raw_message}
+        if thread_id:
+            send_message["threadId"] = thread_id
 
         sent = self.service.users().messages().send(userId="me", body=send_message).execute()
         return sent

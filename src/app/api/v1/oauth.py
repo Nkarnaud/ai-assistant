@@ -94,7 +94,7 @@ async def google_callback(
     # Update user with OAuth provider info
     from ...schemas.user import UserUpdateInternal
 
-    user_update = UserUpdateInternal(oauth_provider="google", oauth_sub=oauth_sub)
+    user_update = UserUpdateInternal(oauth_provider="google", oauth_sub=oauth_sub)  # type: ignore[call-arg]
     db_user = await crud_users.update(db=db, object=user_update, id=db_user["id"])
 
     # Save OAuth tokens
@@ -147,7 +147,7 @@ async def link_google_account(
     # Update user with OAuth provider info
     from ...schemas.user import UserUpdateInternal
 
-    user_update = UserUpdateInternal(oauth_provider="google", oauth_sub=oauth_sub)
+    user_update = UserUpdateInternal(oauth_provider="google", oauth_sub=oauth_sub)  # type: ignore[call-arg]
     await crud_users.update(db=db, object=user_update, id=current_user["id"])
 
     # Save OAuth tokens
@@ -188,7 +188,7 @@ async def unlink_google_account(
     # Remove OAuth fields from user
     from ...schemas.user import UserUpdateInternal
 
-    user_update = UserUpdateInternal(oauth_provider=None, oauth_sub=None)
+    user_update = UserUpdateInternal(oauth_provider=None, oauth_sub=None)  # type: ignore[call-arg]
     await crud_users.update(db=db, object=user_update, id=current_user["id"])
 
     return {"message": "Google account unlinked successfully"}

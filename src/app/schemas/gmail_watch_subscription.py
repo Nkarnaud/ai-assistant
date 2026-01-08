@@ -39,6 +39,7 @@ class GmailWatchSubscriptionCreate(GmailWatchSubscriptionBase):
 
 class GmailWatchSubscriptionCreateInternal(GmailWatchSubscriptionBase):
     user_id: int
+    is_active: bool = True
 
 
 class GmailWatchSubscriptionUpdate(BaseModel):

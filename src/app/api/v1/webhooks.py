@@ -72,7 +72,7 @@ async def gmail_push_notification(request: Request, db: Annotated[AsyncSession, 
 
         # Queue email processing task
         # Import here to avoid circular dependency
-        from ...core.celery_app import process_new_emails_task
+        from ...core.celery_tasks import process_new_emails_task
 
         process_new_emails_task.delay(user_id, int(history_id))
 

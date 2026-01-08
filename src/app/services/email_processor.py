@@ -1,6 +1,7 @@
 """Email processing service - orchestrates the email handling pipeline."""
 
 from datetime import UTC, datetime
+from typing import Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -40,7 +41,7 @@ class EmailProcessor:
         self.notification_service = notification_service
         self.calendar_extractor = CalendarEventExtractor(ai_service)
 
-    async def process_email(self, user_id: int, message_id: str, db: AsyncSession) -> dict[str, any]:
+    async def process_email(self, user_id: int, message_id: str, db: AsyncSession) -> dict[str, Any]:
         """Process a single email through the complete pipeline.
 
         Parameters
