@@ -1,222 +1,332 @@
-<h1 align="center"> Benav Labs FastAPI boilerplate</h1>
-<p align="center" markdown=1>
-  <i><b>Batteries-included FastAPI starter</b> with production-ready defaults, optional modules, and clear docs.</i>
-</p>
+# AI Email Assistant
 
-<p align="center">
-  <a href="https://benavlabs.github.io/FastAPI-boilerplate">
-    <img src="docs/assets/FastAPI-boilerplate.png" alt="Purple Rocket with FastAPI Logo as its window." width="25%" height="auto">
-  </a>
-</p>
-
-<p align="center">
-📚 <a href="https://benavlabs.github.io/FastAPI-boilerplate/">Docs</a> · 🧠 <a href="https://deepwiki.com/benavlabs/FastAPI-boilerplate">DeepWiki</a> · 💬 <a href="https://discord.com/invite/TEmPs22gqB">Discord</a>
-</p>
-
-<p align="center">
-  <a href="https://fastapi.tiangolo.com">
-      <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" alt="FastAPI">
-  </a>
-  <a href="https://www.postgresql.org">
-      <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL">
-  </a>
-  <a href="https://redis.io">
-      <img src="https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=fff&style=for-the-badge" alt="Redis">
-  </a>
-  <a href="https://deepwiki.com/benavlabs/FastAPI-boilerplate">
-      <img src="https://img.shields.io/badge/DeepWiki-1F2937?style=for-the-badge&logoColor=white" alt="DeepWiki">
-  </a>
-</p>
+An intelligent email management system that uses AI to automatically process Gmail messages, extract calendar events, generate draft replies, and send push notifications.
 
 ## Features
 
-* ⚡️ Fully async FastAPI + SQLAlchemy 2.0
-* 🧱 Pydantic v2 models & validation
-* 🔐 JWT auth (access + refresh), cookies for refresh
-* 👮 Rate limiter + tiers (free/pro/etc.)
-* 🧰 FastCRUD for efficient CRUD & pagination
-* 🧑‍💼 **CRUDAdmin**: minimal admin panel (optional)
-* 🚦 ARQ background jobs (Redis)
-* 🧊 Redis caching (server + client-side headers)
-* 🌐 Configurable CORS middleware for frontend integration
-* 🐳 One-command Docker Compose
-* 🚀 NGINX & Gunicorn recipes for prod
+### 🤖 AI-Powered Email Processing
+- **Automatic Classification**: Claude/OpenAI models classify emails (calendar planning, requires reply, informational, spam)
+- **Smart Reply Generation**: AI generates contextual draft replies for user approval
+- **Event Extraction**: Automatically extracts meeting details from emails and creates calendar events
 
-## Why and When to use it
+### 📧 Gmail Integration
+- **Real-time Monitoring**: Gmail push notifications via Google Pub/Sub
+- **Full Gmail API**: Send, receive, search, and manage emails
+- **Thread Support**: Reply to email threads with context
 
-**Perfect if you want:**
+### 📅 Calendar Management
+- **Auto-Create Events**: Automatically creates Google Calendar events from meeting emails
+- **Confidence Thresholds**: Configurable confidence scores for auto-creation
+- **Sync Status**: Track sync status and event updates
 
-* A pragmatic starter with auth, CRUD, jobs, caching and rate-limits
-* **Sensible defaults** with the freedom to opt-out of modules
-* **Docs over boilerplate** in README - depth lives in the site
+### 🔔 Smart Notifications
+- **Web Push Notifications**: Browser notifications for drafts, events, and updates
+- **Customizable Preferences**: Configure notification timings (15min, 1hr, 1day before events)
+- **Multi-Device Support**: Push to all user's subscribed devices
 
-> **Not a fit** if you need a monorepo microservices scaffold - [see the docs](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/project-structure/) for pointers.
+### 🛠️ Production-Ready Architecture
+- **FastAPI**: Fully async Python web framework
+- **SQLAlchemy 2.0**: Modern ORM with async support
+- **Celery + Redis**: Background task processing and caching
+- **PostgreSQL**: Robust relational database
+- **Docker**: One-command containerized deployment
 
-**What you get:**
+## Tech Stack
 
-* **App**: FastAPI app factory, [env-aware docs](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/development/) exposure
-* **Auth**: [JWT access/refresh](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/authentication/), logout via token blacklist
-* **DB**: Postgres + SQLAlchemy 2.0, [Alembic migrations](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/database/)
-* **CRUD**: [FastCRUD generics](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/database/crud/) (get, get_multi, create, update, delete, joins)
-* **Caching**: [decorator-based endpoints cache](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/caching/); client cache headers
-* **Queues**: [ARQ worker](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/background-tasks/) (async jobs), Redis connection helpers
-* **Rate limits**: [per-tier + per-path rules](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/rate-limiting/)
-* **Admin**: [CRUDAdmin views](https://benavlabs.github.io/FastAPI-boilerplate/user-guide/admin-panel/) for common models (optional)
+- **Framework**: FastAPI with Pydantic v2
+- **Database**: PostgreSQL 13 with SQLAlchemy 2.0
+- **Cache/Queue**: Redis (caching + Celery broker)
+- **Background Tasks**: Celery with Celery Beat
+- **AI Models**: Claude (Anthropic) + OpenAI GPT
+- **Google APIs**: Gmail API, Calendar API, Cloud Pub/Sub
+- **Authentication**: JWT + OAuth2 (Google)
+- **Container**: Docker + Docker Compose
 
-This is what we've been using in production apps. Several applications running in production started from this boilerplate as their foundation - from SaaS platforms to internal tools. It's proven, stable technology that works together reliably. Use this as the foundation for whatever you want to build on top.
+## Quick Start
 
-> **Building an AI SaaS?** Skip even more setup with [**FastroAI**](https://fastro.ai) - our production-ready template with AI integration, payments, and frontend included.
+### Prerequisites
+- Docker and Docker Compose
+- Google Cloud Project with Gmail API and Calendar API enabled
+- OAuth 2.0 Client credentials
+- Claude API key or OpenAI API key
 
-## TL;DR - Quickstart
+### Installation
 
-Use the template on GitHub, create your repo, then:
-
+1. **Clone the repository**
 ```bash
-git clone https://github.com/<you>/FastAPI-boilerplate
-cd FastAPI-boilerplate
+git clone <your-repo-url>
+cd ai-assistant
 ```
 
-**Quick setup:** Run the interactive setup script to choose your deployment configuration:
-
+2. **Run setup script**
 ```bash
-./setup.py
+./setup.py local  # or staging/production
 ```
 
-Or directly specify the deployment type: `./setup.py local`, `./setup.py staging`, or `./setup.py production`.
+This will copy the appropriate Docker configuration and create `src/.env` file.
 
-The script copies the right files for your deployment scenario. Here's what each option sets up:
+3. **Configure environment variables** in `src/.env`:
+```env
+# App Settings
+APP_NAME=AI Email Assistant
+ENVIRONMENT=local
 
-### Option 1: Local development with Uvicorn
+# Database
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=your_password
+POSTGRES_SERVER=db
+POSTGRES_PORT=5432
+POSTGRES_DB=ai_assistant
 
-Best for: **Development and testing**
+# JWT
+SECRET_KEY=your-secret-key-here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+REFRESH_TOKEN_EXPIRE_DAYS=7
 
-**Copies:**
+# Redis
+REDIS_CACHE_HOST=redis
+REDIS_CACHE_PORT=6379
 
-- `scripts/local_with_uvicorn/Dockerfile` → `Dockerfile`
-- `scripts/local_with_uvicorn/docker-compose.yml` → `docker-compose.yml`
-- `scripts/local_with_uvicorn/.env.example` → `src/.env`
+# Google OAuth2
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:8000/api/v1/auth/callback
 
-Sets up Uvicorn with auto-reload enabled. The example environment values work fine for development.
+# Google Cloud Pub/Sub
+GOOGLE_CLOUD_PROJECT=your-project-id
+PUBSUB_TOPIC_NAME=gmail-notifications
 
-**Manual setup:** `./setup.py local` or copy the files above manually.
+# Token Encryption
+TOKEN_ENCRYPTION_KEY=your-fernet-key
 
-### Option 2: Staging with Gunicorn managing Uvicorn workers
+# AI Configuration
+AI_PROVIDER=claude  # or openai
+CLAUDE_API_KEY=your_claude_api_key
+OPENAI_API_KEY=your_openai_api_key
+AI_MODEL_CLASSIFICATION=claude-3-haiku-20240307
+AI_MODEL_REPLY=claude-3-5-sonnet-20241022
+AI_CONFIDENCE_THRESHOLD=0.8
 
-Best for: **Staging environments and load testing**
+# Features
+AUTO_CREATE_CALENDAR_EVENTS=true
+REQUIRE_EVENT_CONFIRMATION=false
 
-**Copies:**
+# Celery
+CELERY_BROKER_URL=redis://redis:6379/1
+CELERY_RESULT_BACKEND=redis://redis:6379/2
 
-- `scripts/gunicorn_managing_uvicorn_workers/Dockerfile` → `Dockerfile`
-- `scripts/gunicorn_managing_uvicorn_workers/docker-compose.yml` → `docker-compose.yml`
-- `scripts/gunicorn_managing_uvicorn_workers/.env.example` → `src/.env`
+# Web Push (optional)
+VAPID_SUBJECT=mailto:your-email@example.com
+VAPID_PUBLIC_KEY=your_public_key
+VAPID_PRIVATE_KEY=your_private_key
+```
 
-Sets up Gunicorn managing multiple Uvicorn workers for production-like performance testing.
+4. **Generate encryption key**
+```bash
+python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+```
 
-> [!WARNING]
-> Change `SECRET_KEY` and passwords in the `.env` file for staging environments.
-
-**Manual setup:** `./setup.py staging` or copy the files above manually.
-
-### Option 3: Production with NGINX
-
-Best for: **Production deployments**
-
-**Copies:**
-
-- `scripts/production_with_nginx/Dockerfile` → `Dockerfile`
-- `scripts/production_with_nginx/docker-compose.yml` → `docker-compose.yml`
-- `scripts/production_with_nginx/.env.example` → `src/.env`
-
-Sets up NGINX as reverse proxy with Gunicorn + Uvicorn workers for production.
-
-> [!CAUTION]
-> You MUST change `SECRET_KEY`, all passwords, and sensitive values in the `.env` file before deploying!
-
-**Manual setup:** `./setup.py production` or copy the files above manually.
-
----
-
-**Start your application:**
-
+5. **Start the application**
 ```bash
 docker compose up
 ```
 
-**Access your app:**
-- **Local**: http://127.0.0.1:8000 (auto-reload enabled) → [API docs](http://127.0.0.1:8000/docs)
-- **Staging**: http://127.0.0.1:8000 (production-like performance)
-- **Production**: http://localhost (NGINX reverse proxy)
-
-### Next steps
-
-**Create your first admin user:**
+6. **Create superuser**
 ```bash
 docker compose run --rm create_superuser
 ```
 
-**Run database migrations** (if you add models):
+7. **Run migrations**
 ```bash
-cd src && uv run alembic revision --autogenerate && uv run alembic upgrade head
+docker compose exec web bash -c "cd /app && alembic upgrade head"
 ```
 
-**Test background jobs:**
+### Access the Application
+
+- **API Docs**: http://127.0.0.1:8000/docs
+- **API**: http://127.0.0.1:8000/api/v1/
+
+## Google Cloud Setup
+
+### 1. Enable APIs
 ```bash
-curl -X POST 'http://127.0.0.1:8000/api/v1/tasks/task?message=hello'
+gcloud services enable gmail.googleapis.com
+gcloud services enable calendar-json.googleapis.com
+gcloud services enable pubsub.googleapis.com
 ```
 
-**Or run locally without Docker:**
+### 2. Create Pub/Sub Topic
+```bash
+gcloud pubsub topics create gmail-notifications
+```
+
+### 3. Create Push Subscription
+```bash
+gcloud pubsub subscriptions create gmail-push-sub \
+  --topic=gmail-notifications \
+  --push-endpoint=https://your-domain.com/api/v1/webhooks/gmail
+```
+
+### 4. Grant Gmail Permissions
+```bash
+gcloud projects add-iam-policy-binding PROJECT_ID \
+  --member=serviceAccount:gmail-api-push@system.gserviceaccount.com \
+  --role=roles/pubsub.publisher
+```
+
+## Usage
+
+### 1. Connect Google Account
+
+Navigate to `/api/v1/auth/google` to start OAuth flow and grant Gmail/Calendar permissions.
+
+### 2. Enable Gmail Watch
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/gmail/watch/setup \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+### 3. System Workflow
+
+**When an email arrives:**
+1. Gmail sends push notification to Pub/Sub
+2. Webhook triggers background Celery task
+3. Email is fetched and stored in database
+4. AI classifies the email:
+   - **Calendar Planning**: Extracts event details → Creates in Google Calendar → Sends notification
+   - **Requires Reply**: Generates draft reply → Stores for approval → Sends notification
+   - **Informational**: Marks as processed
+
+**Draft Approval:**
+1. User receives push notification about new draft
+2. User reviews draft at `/api/v1/drafts`
+3. User approves, rejects, or edits draft
+4. Approved drafts are sent via Gmail API
+
+**Event Notifications:**
+1. Celery Beat checks for upcoming events every minute
+2. Sends notifications based on user preferences (15min, 1hr, 1day before)
+3. Marks events as notified
+
+## API Endpoints
+
+### Gmail Operations
+- `POST /api/v1/gmail/watch/setup` - Enable real-time email monitoring
+- `POST /api/v1/gmail/watch/stop` - Disable monitoring
+- `GET /api/v1/gmail/watch/status` - Check subscription status
+- `GET /api/v1/gmail/messages` - List messages with filters
+- `GET /api/v1/gmail/messages/{id}` - Get message details
+- `POST /api/v1/gmail/messages/send` - Send email
+
+### Email Management
+- `GET /api/v1/emails` - List processed emails with AI analysis
+- `GET /api/v1/emails/{id}` - Get email details
+
+### Draft Management
+- `GET /api/v1/drafts` - List pending drafts
+- `GET /api/v1/drafts/{id}` - Get draft details
+- `POST /api/v1/drafts/{id}/approve` - Approve and send draft
+- `POST /api/v1/drafts/{id}/reject` - Reject draft
+- `PUT /api/v1/drafts/{id}/edit` - Edit draft content
+
+### Calendar
+- `GET /api/v1/calendar/events` - List calendar events
+- `GET /api/v1/calendar/events/upcoming` - Get upcoming events
+- `POST /api/v1/calendar/events` - Create event manually
+- `GET /api/v1/calendar/events/{id}` - Get event details
+
+### Notifications
+- `GET /api/v1/notifications/preferences` - Get preferences
+- `PUT /api/v1/notifications/preferences` - Update preferences
+- `POST /api/v1/notifications/subscribe` - Subscribe to push notifications
+- `GET /api/v1/notifications/subscriptions` - List subscriptions
+
+### Webhooks
+- `POST /api/v1/webhooks/gmail` - Gmail push notification webhook
+
+## Background Tasks
+
+### Start Celery Worker
+```bash
+celery -A src.app.core.celery_app worker --loglevel=info
+```
+
+### Start Celery Beat (Periodic Tasks)
+```bash
+celery -A src.app.core.celery_app beat --loglevel=info
+```
+
+### Tasks
+- **process_new_emails_task**: Processes incoming emails (triggered by webhook)
+- **check_upcoming_events**: Checks for events and sends notifications (every minute)
+- **renew_gmail_watch_subscriptions**: Renews expiring subscriptions (daily)
+
+## Development
+
+### Run Locally Without Docker
 ```bash
 uv sync && uv run uvicorn src.app.main:app --reload
 ```
 
-> Full setup (from-scratch, .env examples, PostgreSQL & Redis, gunicorn, nginx) lives in the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/installation/).
-
-## Configuration (minimal)
-
-Create `src/.env` and set **app**, **database**, **JWT**, and **environment** settings. See the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/configuration/) for a copy-pasteable example and production guidance.
-
-[https://benavlabs.github.io/FastAPI-boilerplate/getting-started/configuration/](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/configuration/)
-
-* `ENVIRONMENT=local|staging|production` controls API docs exposure
-* Set `ADMIN_*` to enable the first admin user
-
-## Common tasks
-
+### Create Migration
 ```bash
-# run locally with reload (without Docker)
-uv sync && uv run uvicorn src.app.main:app --reload
-
-# run Alembic migrations
-cd src && uv run alembic revision --autogenerate && uv run alembic upgrade head
-
-# enqueue a background job (example endpoint)
-curl -X POST 'http://127.0.0.1:8000/api/v1/tasks/task?message=hello'
+cd src && uv run alembic revision --autogenerate -m "description"
 ```
 
-More examples (superuser creation, tiers, rate limits, admin usage) in the [docs](https://benavlabs.github.io/FastAPI-boilerplate/getting-started/first-run/).
+### Apply Migrations
+```bash
+cd src && uv run alembic upgrade head
+```
 
-## Contributing
+### Run Tests
+```bash
+docker compose run --rm pytest
+# or locally
+uv run pytest ./tests
+```
 
-Read [contributing](CONTRIBUTING.md).
+### Code Quality
+```bash
+# Lint
+uv run ruff check src/
 
-## References
+# Format
+uv run ruff format src/
 
-This project was inspired by a few projects, it's based on them with things changed to the way I like (and pydantic, sqlalchemy updated)
+# Type check
+uv run mypy src/
+```
 
-- [`Full Stack FastAPI and PostgreSQL`](https://github.com/tiangolo/full-stack-fastapi-postgresql) by @tiangolo himself
-- [`FastAPI Microservices`](https://github.com/Kludex/fastapi-microservices) by @kludex which heavily inspired this boilerplate
-- [`Async Web API with FastAPI + SQLAlchemy 2.0`](https://github.com/rhoboro/async-fastapi-sqlalchemy) for sqlalchemy 2.0 ORM examples
-- [`FastaAPI Rocket Boilerplate`](https://github.com/asacristani/fastapi-rocket-boilerplate/tree/main) for docker compose
+## Architecture
+
+### Database Models
+- **User**: User accounts with OAuth support
+- **OAuthToken**: Encrypted OAuth tokens
+- **EmailMessage**: Processed emails with AI analysis
+- **DraftReply**: AI-generated draft replies
+- **CalendarEvent**: Calendar events synced from emails
+- **NotificationPreference**: User notification settings
+- **GmailWatchSubscription**: Gmail push notification tracking
+- **PushSubscription**: Web push subscriptions
+
+### Services
+- **AIService**: Claude/OpenAI integration for classification, reply generation, event extraction
+- **GmailService**: Gmail API wrapper
+- **CalendarService**: Google Calendar API wrapper
+- **EmailProcessor**: Main email processing pipeline
+- **CalendarEventExtractor**: Event extraction and creation
+- **NotificationService**: Web push notifications
+
+## Configuration
+
+See `CLAUDE.md` for detailed configuration options and developer guidance.
 
 ## License
 
-[`MIT`](LICENSE.md)
+MIT
 
 ## Contact
 
-Benav Labs – [benav.io](https://benav.io), [discord server](https://discord.com/invite/TEmPs22gqB)
-
-<hr>
-<a href="https://benav.io">
-  <img src="https://github.com/benavlabs/fastcrud/raw/main/docs/assets/benav_labs_banner.png" alt="Powered by Benav Labs - benav.io"/>
-</a>
+For questions or support, please open an issue on GitHub.

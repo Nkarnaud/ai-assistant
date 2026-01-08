@@ -92,47 +92,6 @@ class ClientSideCacheSettings(BaseSettings):
     CLIENT_CACHE_MAX_AGE: int = 60
 
 
-class RedisQueueSettings(BaseSettings):
-    REDIS_QUEUE_HOST: str = "localhost"
-    REDIS_QUEUE_PORT: int = 6379
-
-
-class RedisRateLimiterSettings(BaseSettings):
-    REDIS_RATE_LIMIT_HOST: str = "localhost"
-    REDIS_RATE_LIMIT_PORT: int = 6379
-
-    @computed_field  # type: ignore[prop-decorator]
-    @property
-    def REDIS_RATE_LIMIT_URL(self) -> str:
-        return f"redis://{self.REDIS_RATE_LIMIT_HOST}:{self.REDIS_RATE_LIMIT_PORT}"
-
-
-class DefaultRateLimitSettings(BaseSettings):
-    DEFAULT_RATE_LIMIT_LIMIT: int = 10
-    DEFAULT_RATE_LIMIT_PERIOD: int = 3600
-
-
-class CRUDAdminSettings(BaseSettings):
-    CRUD_ADMIN_ENABLED: bool = True
-    CRUD_ADMIN_MOUNT_PATH: str = "/admin"
-
-    CRUD_ADMIN_ALLOWED_IPS_LIST: list[str] | None = None
-    CRUD_ADMIN_ALLOWED_NETWORKS_LIST: list[str] | None = None
-    CRUD_ADMIN_MAX_SESSIONS: int = 10
-    CRUD_ADMIN_SESSION_TIMEOUT: int = 1440
-    SESSION_SECURE_COOKIES: bool = True
-
-    CRUD_ADMIN_TRACK_EVENTS: bool = True
-    CRUD_ADMIN_TRACK_SESSIONS: bool = True
-
-    CRUD_ADMIN_REDIS_ENABLED: bool = False
-    CRUD_ADMIN_REDIS_HOST: str = "localhost"
-    CRUD_ADMIN_REDIS_PORT: int = 6379
-    CRUD_ADMIN_REDIS_DB: int = 0
-    CRUD_ADMIN_REDIS_PASSWORD: str | None = "None"
-    CRUD_ADMIN_REDIS_SSL: bool = False
-
-
 class EnvironmentOption(str, Enum):
     LOCAL = "local"
     STAGING = "staging"
@@ -149,6 +108,58 @@ class CORSSettings(BaseSettings):
     CORS_HEADERS: list[str] = ["*"]
 
 
+class OAuth2Settings(BaseSettings):
+    GOOGLE_CLIENT_ID: str = ""
+    GOOGLE_CLIENT_SECRET: SecretStr = SecretStr("")
+    GOOGLE_REDIRECT_URI: str = "http://localhost:8000/api/v1/auth/callback"
+    OAUTH2_SCOPES: list[str] = [
+        "openid",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/gmail.readonly",
+        "https://www.googleapis.com/auth/gmail.send",
+        "https://www.googleapis.com/auth/gmail.modify",
+        "https://www.googleapis.com/auth/calendar.readonly",
+        "https://www.googleapis.com/auth/calendar.events",
+    ]
+    TOKEN_ENCRYPTION_KEY: SecretStr = SecretStr("")
+
+
+class AISettings(BaseSettings):
+    AI_PROVIDER: str = "claude"  # "claude" or "openai"
+    CLAUDE_API_KEY: SecretStr = SecretStr("")
+    OPENAI_API_KEY: SecretStr = SecretStr("")
+    AI_MODEL_CLASSIFICATION: str = "claude-3-haiku-20240307"
+    AI_MODEL_REPLY: str = "claude-3-5-sonnet-20241022"
+    AI_MODEL_CALENDAR: str = "claude-3-5-sonnet-20241022"
+    AI_AUTO_REPLY_ENABLED: bool = False
+    AI_CONFIDENCE_THRESHOLD: float = 0.8
+
+
+class PubSubSettings(BaseSettings):
+    GOOGLE_CLOUD_PROJECT: str = ""
+    PUBSUB_TOPIC_NAME: str = "gmail-notifications"
+    PUBSUB_SUBSCRIPTION_NAME: str = "gmail-notifications-sub"
+
+
+class PushNotificationSettings(BaseSettings):
+    VAPID_PUBLIC_KEY: str = ""
+    VAPID_PRIVATE_KEY: SecretStr = SecretStr("")
+    VAPID_CONTACT_EMAIL: str = "admin@example.com"
+
+
+class CelerySettings(BaseSettings):
+    CELERY_BROKER_URL: str = "redis://redis:6379/1"
+    CELERY_RESULT_BACKEND: str = "redis://redis:6379/2"
+
+
+class FeatureSettings(BaseSettings):
+    AUTO_CREATE_CALENDAR_EVENTS: bool = True
+    REQUIRE_EVENT_CONFIRMATION: bool = False
+    DEFAULT_NOTIFICATION_ADVANCE_MINUTES: int = 15
+    EMAIL_PROCESSING_ENABLED: bool = True
+
+
 class Settings(
     AppSettings,
     SQLiteSettings,
@@ -158,12 +169,14 @@ class Settings(
     TestSettings,
     RedisCacheSettings,
     ClientSideCacheSettings,
-    RedisQueueSettings,
-    RedisRateLimiterSettings,
-    DefaultRateLimitSettings,
-    CRUDAdminSettings,
     EnvironmentSettings,
     CORSSettings,
+    OAuth2Settings,
+    AISettings,
+    PubSubSettings,
+    PushNotificationSettings,
+    CelerySettings,
+    FeatureSettings,
 ):
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", ".env"),

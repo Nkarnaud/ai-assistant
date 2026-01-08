@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Any, Literal
 
 import bcrypt
+from cryptography.fernet import Fernet
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from pydantic import SecretStr
@@ -134,3 +135,51 @@ async def blacklist_token(token: str, db: AsyncSession) -> None:
     if exp_timestamp is not None:
         expires_at = datetime.fromtimestamp(exp_timestamp)
         await crud_token_blacklist.create(db, object=TokenBlacklistCreate(token=token, expires_at=expires_at))
+
+
+# OAuth2 Token Encryption/Decryption
+def get_token_cipher() -> Fernet:
+    """Get Fernet cipher for token encryption/decryption."""
+    encryption_key = settings.TOKEN_ENCRYPTION_KEY.get_secret_value()
+    if not encryption_key:
+        raise ValueError("TOKEN_ENCRYPTION_KEY is not configured")
+    # Ensure key is properly formatted (32 url-safe base64-encoded bytes)
+    if len(encryption_key) != 44:
+        raise ValueError("TOKEN_ENCRYPTION_KEY must be 44 characters (32 bytes base64 encoded)")
+    return Fernet(encryption_key.encode())
+
+
+def encrypt_token(token: str) -> str:
+    """Encrypt an OAuth2 token for secure storage.
+
+    Parameters
+    ----------
+    token: str
+        The plaintext token to encrypt
+
+    Returns
+    -------
+    str
+        The encrypted token as a string
+    """
+    cipher = get_token_cipher()
+    encrypted_bytes = cipher.encrypt(token.encode())
+    return encrypted_bytes.decode()
+
+
+def decrypt_token(encrypted_token: str) -> str:
+    """Decrypt an OAuth2 token from storage.
+
+    Parameters
+    ----------
+    encrypted_token: str
+        The encrypted token string
+
+    Returns
+    -------
+    str
+        The decrypted plaintext token
+    """
+    cipher = get_token_cipher()
+    decrypted_bytes = cipher.decrypt(encrypted_token.encode())
+    return decrypted_bytes.decode()
